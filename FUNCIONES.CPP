@@ -22,46 +22,42 @@ int mostrarmenu()
     return opcion;
     }
 
-void elegiropcion(int opcion, bool &salir)
-    { MARCA Marca[10];
-      PRODUCTOS Productos[20];
-      FORMAPAGO Formapago[5];
-
-    switch(opcion)
+void elegiropcion(int opcion, bool &salir, MARCA marcas[], PRODUCTOS productos[], FORMAPAGO formapago[])
+    { switch(opcion)
     {
     case 1:
-    {
+    {MARCA marcas[10];
         system("cls");
         cout<<"Usted esta en la carga de Marcas"<<endl<<endl;
 
-        int tam = 10;
-        cargarLoteMarca(Marca, tam);
+        int tam=10;
+        cargarLoteMarca (marcas, tam);
         system("cls");
         cout<< "Datos de las marcas" << endl<<endl;
 
         for(int i = 0; i < 10; i++)
         {
-        cout<<Marca[i].codMarca << " ---- ";
-        cout<<Marca[i].nombre<<endl;
+        cout<<marcas[i].codMarca << " ---- ";
+        cout<<marcas[i].nombre<<endl;
         }
         break;
     }
 
     case 2:
-     {
+     {PRODUCTOS productos[20];
 
         system("cls");
         cout<<"Usted esta en la carga de Productos"<<endl<<endl;
         int tam=20;
-        cargarLoteProd (Productos, tam);
+        cargarLoteProd (productos, tam);
         cout<<endl<< "Datos de los productos" << endl<<endl;
         for(int i = 0; i < 20; i++)
-       {cout<<"Codigo: "<<Productos[i].codProd << " ---- ";
-        cout<<"Nombre: "<<Productos[i].nombreProd<<endl;
-        cout<<"Precio/v: "<<Productos[i].preVenta<<endl;
-        cout<<"Precio/c: "<<Productos[i].preCompra<<endl;
-        cout<<"Unidades: "<<Productos[i].stock<<endl;
-        cout<<"Marca: "<<Productos[i].codMarca<<endl;
+       {cout<<"Codigo: "<<productos[i].codProd << " ---- ";
+        cout<<"Nombre: "<<productos[i].nombreProd<<endl;
+        cout<<"Precio/v: "<<productos[i].preVenta<<endl;
+        cout<<"Precio/c: "<<productos[i].preCompra<<endl;
+        cout<<"Unidades: "<<productos[i].stock<<endl;
+        cout<<"Marca: "<<productos[i].codMarca<<endl;
 
         system("pause");
         }
@@ -69,16 +65,17 @@ void elegiropcion(int opcion, bool &salir)
         }
 
     case 3:
-        {system("cls");
+        {FORMAPAGO formapago[5];
+            system("cls");
         cout<<"Usted esta en la carga de Formas de Pago"<<endl<<endl;
         int tamFP=5;
-        cargarLoteFP (Formapago, tamFP);
+        cargarLoteFP (formapago, tamFP);
 
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < tamFP; i++)
         {
-        cout<<"Codigo: "<<Formapago[i].codPago<<" ---- "<<endl;
-        cout<<"Metodo de pago: "<<Formapago[i].nombreFP<<endl;
-        cout<<"ajuste del: "<<Formapago[i].porcentaje<<endl;
+        cout<<"Codigo: "<<formapago[i].codPago<<" ---- "<<endl;
+        cout<<"Metodo de pago: "<<formapago[i].nombreFP<<endl;
+        cout<<"ajuste del: "<<formapago[i].porcentaje<<endl;
 
         system("pause");
         }
@@ -87,10 +84,10 @@ void elegiropcion(int opcion, bool &salir)
 
     case 4:
     {  bool Autoriza;
-    Autoriza = Autorizaciones(Marca, Productos, Formapago);
+    Autoriza = Autorizaciones(marcas, productos, formapago);
     if (Autoriza!=true)
         {system("cls");
-    cout<<"Error: No esta autorizado"<<endl;
+    cout<<"Error 8: No esta autorizado"<<endl;
     cout<<"Debe cargar los lotes de Marcas, Productos y Formas de Pago primero."<<endl<<endl;
     system("pause");
         break;}
@@ -106,42 +103,29 @@ void elegiropcion(int opcion, bool &salir)
         int codcliente;
         int dia;
         std:: string fp;
-
-Lote_procesos(Marca, Productos, Formapago, nrocompra,codpro,cant,codcliente,dia, fp);
-
+        Lote_procesos(Marca, Productos, Formapago, nrocompra,codpro,cant,codcliente,dia, fp);
         }
     break;
         }
 
     case 5:
-   {
-    int Iopcionreporte;
+   {int Iopcionreporte;
     bool Isalirreportes = false;
-
     while (Isalirreportes!= true)
     {Iopcionreporte= Imostrarmenu();
-    Ielegirreporte(Iopcionreporte, Isalirreportes);}
-
-
-            break;
-            }
+   Ielegirreporte(Iopcionreporte, Isalirreportes);}
+            break;}
 
    case 0:
-        {{
-        system("cls");
+        {{system("cls");
           cout<<"Salir"<<endl<<endl;
-
           salir=true;}
-    break;
-        }
+    break;}
 
     default:
-    {     system("cls");
-          cout << "Por favor, vuelva a elegir" << endl << endl;}//cierra el default
-
-    break;
-    }//CIERRA switch
-
+    {system("cls");
+     cout << "Por favor, vuelva a elegir" << endl << endl;}//cierra el default
+    break;}//CIERRA switch
     }//cierra la funcion completa
 
 void IniciarMenu()
@@ -150,16 +134,15 @@ void IniciarMenu()
     while (salir!= true)
     {
     int opcion = mostrarmenu();
-    elegiropcion(opcion, salir);
+    elegiropcion(opcion, salir, marcas, productos, formapago);
     }
     }
 
 
    //FUNCIONES INDIVIDUALES DESDE ACA//
 
-bool cargarLoteMarca(MARCA Marca[], int tam=10)
-       {
-        int aux, i, codmarca;
+bool cargarLoteMarca(MARCA Marca[], int tam)
+       {int aux, i, codmarca;
         std:: string nombre;
         for (i = 0; i < tam; i++)
         {
@@ -179,16 +162,16 @@ bool cargarLoteMarca(MARCA Marca[], int tam=10)
         return true;
         }
 
-bool cargarLoteProd(PRODUCTOS Productos [], int tam)
+bool cargarLoteProd (PRODUCTOS productos [], MARCA marca[], int tam);
         {int i, stock, codmarca, codprod;
+        int tam=20;
         float preventa, precompra;
         std:: string nombreprod;
-        MARCA Marca[10];
-        for (i = 0; i < 20; i++)
+        for (i = 0; i < tam; i++)
         {
         cout << "Ingrese el codigo del producto: ";
         cin >>codprod;
-        codprod= validarCeroProducto(codprod);
+        codprod=validarCeroProducto(codprod);
         Productos[i].codProd=codprod;
         cin.ignore();
         cout << "Ingrese el nombre del producto: ";
@@ -196,11 +179,11 @@ bool cargarLoteProd(PRODUCTOS Productos [], int tam)
         Productos[i].nombreProd=nombreprod;
         cout << "Ingrese el precio de venta del producto: ";
         cin >> preventa;
-        //preventa= validarCeroProducto(preventa);
+        preventa= validarCeroProducto(preventa);
         Productos[i].preVenta=preventa;
         cout << "Ingrese el precio de compra del producto: ";
         cin >> precompra;
-        //precompra= validarCeroProducto(precompra);
+        precompra= validarCeroProducto(precompra);
         Productos[i].preCompra=precompra;
         cout << "Ingrese el stock del producto: ";
         cin >> stock;
@@ -258,8 +241,8 @@ int validarCeroMarca(int codmarca)
 
 int validarCeroProducto(int valor)
 {
-        while (valor ==0)
-            {cout<<"Error 5. El valor ingresado no es valido, intentelo nuevamente"<< endl;
+        while (valor==0)
+        {cout<<"Error 5. El valor ingresado no es valido, intentelo nuevamente"<< endl;
         cin>>valor;}
         return valor;
 }
