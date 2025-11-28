@@ -3,17 +3,6 @@
 
 #include <string>
 
-void IniciarMenu();
-int mostrarmenu ();
-void elegiropcion(int opcion, bool &salir);
-
-void IMenureportes();
-int Imostrarreportes();
-int Imostrarmenu();
-int Ielegirreporte(int Iopcionreporte, bool &Isalirreportes);
-
-
-
 struct MARCA
 {
 int codMarca;
@@ -43,6 +32,19 @@ struct clientes
     int cantcompra;
     float acumulado;
 };
+
+void IniciarMenu();
+int mostrarmenu ();
+void elegiropcion(int opcion, bool &salir, MARCA marcas[], PRODUCTOS productos[], FORMAPAGO formasPago[]);
+
+void IMenureportes();
+int Imostrarreportes();
+int Imostrarmenu();
+int Ielegirreporte(int Iopcionreporte, bool &Isalirreportes);
+
+
+
+
 
 //carga de lotes
 bool cargarLoteMarca(MARCA Marca[], int tam);
