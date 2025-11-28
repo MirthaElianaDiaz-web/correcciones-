@@ -1,0 +1,18 @@
+#include <iostream>
+#include"FUNCIONES.h"
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+    bool salir = false;
+    int opcion;
+
+    do {
+        opcion = mostrarmenu();
+        elegiropcion(opcion, salir);
+    } while (!salir);
+
+    return 0;
+}
